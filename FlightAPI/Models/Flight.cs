@@ -1,12 +1,14 @@
-﻿namespace FlightAPI.Models
+﻿using FlightAPI.Utility.Enums;
+
+namespace FlightAPI.Models
 {
     public class Flight
     {
         public int Id { get; set; }
         public string FlightNumber {  get; set; }
-        public DateTime? Departure { get; set; }
-        public string Destination { get; set; }
-        public string DeparturePoint { get; set; }
-
+        public DateTime? DepartureDate { get; set; }
+        public string ArrivalLocation { get; set; }
+        public string DepartureLocation { get; set; }
+        public PlaneType PlaneType { get; set; }
     }
 }
