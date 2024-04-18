@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using FlightAPI.Profiles;
+using FlightAPI.Services.Interfaces;
+using FlightAPI.Services.Implementations;
+using FlightAPI.Repositories.Interfaces;
+using FlightAPI.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IFlightRepository, FlightRepository>();
+builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
+builder.Services.AddScoped<IFlightService, FlightService>();
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
 
