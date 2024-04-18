@@ -14,22 +14,13 @@ namespace FlightAPI.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController(ApplicationDbContext db, IConfiguration configuration, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private ApiResponse _response;
-        private string secretKey;
-
-        public AuthController(ApplicationDbContext db, IConfiguration configuration, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            _db = db;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _response = new ApiResponse();
-            secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
-        }
+        private readonly ApplicationDbContext _db = db;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
+        private readonly ApiResponse _response = new();
+        private readonly string secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequestDTO)
