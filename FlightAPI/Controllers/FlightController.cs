@@ -57,7 +57,7 @@ namespace FlightAPI.Controllers
             if (flightDTO is null)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add("Flight with given id does not exists.");
+                _response.Errors.Add("Flight with given id does not exists");
                 _response.IsSuccess = false;
                 return NotFound(_response);
             }
@@ -66,6 +66,44 @@ namespace FlightAPI.Controllers
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
+        }
+
+        [HttpPost(Name = "CreateFlight")]
+        public async Task<IActionResult> Create([FromBody] CreateFlightDTO flightDTO)
+        {
+            if(flightDTO is null || flightDTO.PlaneId <= 0)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Errors.Add("Invalid flight data");
+                return BadRequest(_response);
+            }
+
+            var plane = await _db.Planes.FindAsync(flightDTO.PlaneId);
+            if (plane is null)
+            {
+                _response.StatusCode = HttpStatusCode.NotFound;
+                _response.IsSuccess = false;
+                _response.Errors.Add("Plane with given id does not exists");
+                return NotFound(_response);
+            }
+
+            Flight newFlight = new()
+            {
+                FlightNumber = flightDTO.FlightNumber,
+                DepartureDate = flightDTO.DepartureDate,
+                ArrivalLocation = flightDTO.ArrivalLocation,
+                DepartureLocation = flightDTO.DepartureLocation,
+                PlaneId = plane.Id
+            };
+
+            _db.Flights.Add(newFlight);
+            await _db.SaveChangesAsync();
+
+            _response.Result = _mapper.Map<FlightDTO>(newFlight);
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.Created;
+            return CreatedAtAction(nameof(Get), new { id = newFlight.Id }, _response);
         }
     }
 }
