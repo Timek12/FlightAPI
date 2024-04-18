@@ -1,4 +1,5 @@
 ﻿using FlightAPI.Utility.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightAPI.Models
 {
@@ -10,5 +11,9 @@ namespace FlightAPI.Models
         public string ArrivalLocation { get; set; }
         public string DepartureLocation { get; set; }
         public PlaneType PlaneType { get; set; }
+
+        [ForeignKey(nameof(Plane))]
+        public int PlaneId { get; set; }
+        public Plane Plane { get; set; }
     }
 }
