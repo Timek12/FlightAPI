@@ -9,6 +9,6 @@ namespace FlightAPI.Models.DTOs
         public DateTime? DepartureDate { get; set; }
         public string ArrivalLocation { get; set; }
         public string DepartureLocation { get; set; }
-        public string PlaneType { get; set; }
+        public PlaneDTO Plane { get; set; }
     }
 }
