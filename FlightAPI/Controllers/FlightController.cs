@@ -41,7 +41,7 @@ namespace FlightAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            if(id <= 0)
+            if (id <= 0)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add("Incorrect flight id");
@@ -68,10 +68,10 @@ namespace FlightAPI.Controllers
             return Ok(_response);
         }
 
-        [HttpPost(Name = "CreateFlight")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateFlightDTO flightDTO)
         {
-            if(flightDTO is null || flightDTO.PlaneId <= 0)
+            if (flightDTO is null || flightDTO.PlaneId <= 0)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.IsSuccess = false;
@@ -110,7 +110,7 @@ namespace FlightAPI.Controllers
         public async Task<IActionResult> Update(UpdateFlightDTO flightDTO)
         {
             var flightFromDb = await _db.Flights.FindAsync(flightDTO.Id);
-            if(flightFromDb is null) 
+            if (flightFromDb is null)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.IsSuccess = false;
@@ -126,6 +126,32 @@ namespace FlightAPI.Controllers
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Errors.Add("Invalid flight id");
+                return BadRequest(_response);
+            }
+
+            var flightFromDb = await _db.Flights.FindAsync(id);
+            if (flightFromDb is null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Errors.Add("Flight with given id does not exists");
+                return NotFound(_response);
+            }
+
+            _db.Flights.Remove(flightFromDb);
+            await _db.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
