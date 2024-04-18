@@ -10,6 +10,7 @@ namespace FlightAPI.Profiles
         {
             CreateMap<Flight, FlightDTO>();
             CreateMap<Plane, PlaneDTO>();
+            CreateMap<UpdateFlightDTO, Flight>();
         }
     }
 }
