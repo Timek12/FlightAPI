@@ -105,5 +105,27 @@ namespace FlightAPI.Controllers
             _response.StatusCode = HttpStatusCode.Created;
             return CreatedAtAction(nameof(Get), new { id = newFlight.Id }, _response);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateFlightDTO flightDTO)
+        {
+            var flightFromDb = await _db.Flights.FindAsync(flightDTO.Id);
+            if(flightFromDb is null) 
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.Errors.Add("Invalid flight data");
+                return BadRequest(_response);
+            }
+
+            _mapper.Map(flightDTO, flightFromDb);
+
+            await _db.SaveChangesAsync();
+
+            _response.Result = _mapper.Map<FlightDTO>(flightFromDb);
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
+        }
     }
 }
