@@ -5,10 +5,8 @@ using FlightAPI.Utility.Enums;
 
 namespace FlightAPI.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
-
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Plane> Planes { get; set; }
