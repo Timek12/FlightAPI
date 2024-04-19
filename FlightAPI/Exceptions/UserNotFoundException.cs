@@ -5,6 +5,6 @@
     /// </summary>
     public class UserNotFoundException : Exception
     {
-        public UserNotFoundException() : base("User with given email does not exist") { }
+        public UserNotFoundException() : base("User not found") { }
     }
 }
