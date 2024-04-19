@@ -33,7 +33,7 @@ namespace FlightAPI.Services.Implementations
             return await _flightRepository.Create(flightDTO);
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteFlight(int id)
         {
             if (id <= 0)
             {

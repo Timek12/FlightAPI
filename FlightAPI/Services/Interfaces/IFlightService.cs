@@ -8,6 +8,6 @@ namespace FlightAPI.Services.Interfaces
         Task<FlightDTO> GetFlightDTOById(int id);
         Task<FlightDTO> UpdateFlight(int id, UpdateFlightDTO flightDTO);
         Task<FlightDTO> CreateFlight(CreateFlightDTO flightDTO);
-        Task Delete(int id);
+        Task DeleteFlight(int id);
     }
 }
