@@ -11,6 +11,7 @@ using FlightAPI.Services.Interfaces;
 using FlightAPI.Services.Implementations;
 using FlightAPI.Repositories.Interfaces;
 using FlightAPI.Repositories.Implementations;
+using FlightAPI.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,21 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    if (!(await roleManager.RoleExistsAsync(Constants.Role_Admin)))
+    {
+        await roleManager.CreateAsync(new IdentityRole(Constants.Role_Admin));
+    }
+
+    if (!(await roleManager.RoleExistsAsync(Constants.Role_Customer)))
+    {
+        await roleManager.CreateAsync(new IdentityRole(Constants.Role_Customer));
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {
