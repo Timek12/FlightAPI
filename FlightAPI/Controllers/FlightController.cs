@@ -1,4 +1,5 @@
-﻿using FlightAPI.Models;
+﻿using FlightAPI.Exceptions;
+using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace FlightAPI.Controllers
                 _response.IsSuccess = true;
                 return Ok(_response);
             }
-            catch (KeyNotFoundException ex)
+            catch (FlightNotFoundException ex)
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.Errors.Add(ex.Message);
@@ -42,14 +43,14 @@ namespace FlightAPI.Controllers
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch (ArgumentException ex)
+            catch (InvalidFlightIdException ex)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(ex.Message);
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-            catch (KeyNotFoundException ex)
+            catch (FlightNotFoundException ex)
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.Errors.Add(ex.Message);
@@ -69,21 +70,21 @@ namespace FlightAPI.Controllers
                 _response.StatusCode = HttpStatusCode.Created;
                 return CreatedAtAction(nameof(Get), new { id = newFlightDTO.Id }, _response);
             }
-            catch (ArgumentNullException ex)
+            catch (NullFlightDataException ex)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(ex.Message);
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-            catch (ArgumentException ex)
+            catch (InvalidPlaneIdException ex)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(ex.Message);
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-            catch (KeyNotFoundException ex)
+            catch (PlaneNotFoundException ex)
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.Errors.Add(ex.Message);
@@ -102,21 +103,35 @@ namespace FlightAPI.Controllers
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch (ArgumentNullException ex)
+            catch (NullFlightDataException ex)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(ex.Message);
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-            catch (ArgumentException ex)
+            catch (InvalidFlightIdException ex)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(ex.Message);
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-            catch (KeyNotFoundException ex)
+            catch (InvalidPlaneIdException ex)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.Errors.Add(ex.Message);
+                _response.IsSuccess = false;
+                return BadRequest(_response);
+            }
+            catch (InvalidFlightDataException ex)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.Errors.Add(ex.Message);
+                _response.IsSuccess = false;
+                return BadRequest(_response);
+            }
+            catch (FlightNotFoundException ex)
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.Errors.Add(ex.Message);
@@ -130,17 +145,17 @@ namespace FlightAPI.Controllers
         {
             try
             {
-                await _flightService.Delete(id);
+                await _flightService.DeleteFlight(id);
                 return NoContent();
             }
-            catch (ArgumentException ex)
+            catch (InvalidFlightIdException ex)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(ex.Message);
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-            catch (KeyNotFoundException ex)
+            catch (FlightNotFoundException ex)
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.Errors.Add(ex.Message);
