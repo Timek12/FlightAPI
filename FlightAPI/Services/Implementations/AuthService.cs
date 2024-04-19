@@ -93,12 +93,7 @@ namespace FlightAPI.Services.Implementations
                 throw new FailedToCreateUserException();
             }
 
-            if (!(await _roleManager.RoleExistsAsync(Constants.Role_Admin)))
-            {
-                // Create roles in database
-                await _roleManager.CreateAsync(new IdentityRole(Constants.Role_Admin));
-                await _roleManager.CreateAsync(new IdentityRole(Constants.Role_Customer));
-            }
+            // For development purposes only
 
             if (registerRequestDTO.Role.Equals(Constants.Role_Admin, StringComparison.CurrentCultureIgnoreCase))
             {
