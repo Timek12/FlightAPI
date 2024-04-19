@@ -17,8 +17,8 @@ namespace FlightAPI.Services.Implementations
     {
         private readonly IAuthRepository _authRepository = authRepository;
         private readonly string _secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
+        private readonly int _tokenExpirationDays = configuration.GetValue<int>("ApiSettings:TokenExpirationDays");
         private readonly UserManager<ApplicationUser> _userManager = userManager;
-        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
         public async Task<LoginResponseDTO> LoginUser(LoginRequestDTO loginRequestDTO)
         {
@@ -35,30 +35,12 @@ namespace FlightAPI.Services.Implementations
                 throw new AuthenticationException();
             }
 
-            JwtSecurityTokenHandler tokenhandler = new();
-            byte[] key = Encoding.ASCII.GetBytes(_secretKey);
             var userRoles = await _userManager.GetRolesAsync(userFromDb);
-
-            SecurityTokenDescriptor tokenDescriptor = new()
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new ("firstName", userFromDb.FirstName),
-                    new ("lastName", userFromDb.LastName),
-                    new ("id", userFromDb.Id.ToString()),
-                    new (ClaimTypes.Email, userFromDb.Email),
-                    new (ClaimTypes.Role, userRoles.FirstOrDefault())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            SecurityToken securityToken = tokenhandler.CreateToken(tokenDescriptor);
 
             LoginResponseDTO loginResponse = new()
             {
                 Email = userFromDb.Email,
-                Token = tokenhandler.WriteToken(securityToken),
+                Token = GenerateJwtToken(userFromDb, userRoles)
             };
 
             if (string.IsNullOrEmpty(loginResponse.Token))
@@ -103,6 +85,35 @@ namespace FlightAPI.Services.Implementations
             {
                 await _userManager.AddToRoleAsync(newUser, Constants.Role_Customer);
             }
+        }
+
+        private string GenerateJwtToken(ApplicationUser user, IList<string> roles) 
+        {
+            JwtSecurityTokenHandler tokenhandler = new();
+            byte[] key = Encoding.ASCII.GetBytes(_secretKey);
+
+            var claims = new List<Claim>()
+            {
+                 new ("firstName", user.FirstName),
+                    new ("lastName", user.LastName),
+                    new ("id", user.Id.ToString()),
+                    new (ClaimTypes.Email, user.Email),
+            };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            SecurityTokenDescriptor tokenDescriptor = new()
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(_tokenExpirationDays),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            SecurityToken securityToken = tokenhandler.CreateToken(tokenDescriptor);
+            return tokenhandler.WriteToken(securityToken);
         }
     }
 }
