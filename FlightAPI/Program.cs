@@ -20,9 +20,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
 
