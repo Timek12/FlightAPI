@@ -3,8 +3,8 @@
     /// <summary>
     /// Exception that is thrown when the given password is invalid.
     /// </summary>
-    public class InvalidPasswordException : Exception
+    public class AuthenticationException : Exception
     {
-        public InvalidPasswordException() : base("Invalid password") { }
+        public AuthenticationException() : base("Authentication failed") { }
     }
 }

@@ -38,8 +38,6 @@ namespace FlightAPI.Controllers
                 _response.IsSuccess = false;
                 return BadRequest(_response);
             }
-
-            return BadRequest(_response);
         }
 
         [HttpPost("login")]
@@ -52,7 +50,7 @@ namespace FlightAPI.Controllers
                 _response.IsSuccess = true;
                 return Ok(_response);
             }
-            catch (InvalidPasswordException ex)
+            catch (AuthenticationException ex)
             {
                 _response.Errors.Add(ex.Message);
                 _response.StatusCode = HttpStatusCode.Unauthorized;

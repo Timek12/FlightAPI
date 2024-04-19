@@ -32,7 +32,7 @@ namespace FlightAPI.Services.Implementations
             bool isValidPassword = await _userManager.CheckPasswordAsync(userFromDb, loginRequestDTO.Password);
             if (!isValidPassword)
             {
-                throw new InvalidPasswordException();
+                throw new AuthenticationException();
             }
 
             JwtSecurityTokenHandler tokenhandler = new();
