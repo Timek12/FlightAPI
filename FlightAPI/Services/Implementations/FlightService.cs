@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FlightAPI.Exceptions;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Repositories.Interfaces;
 using FlightAPI.Services.Interfaces;
@@ -14,18 +15,19 @@ namespace FlightAPI.Services.Implementations
         {
             if (flightDTO is null)
             {
-                throw new ArgumentNullException(nameof(flightDTO), "Flight data cannot be null");
+                throw new NullFlightDataException();
             }
 
             if (flightDTO.PlaneId <= 0)
             {
-                throw new ArgumentException("PlaneId must be greater than 0");
+                throw new InvalidPlaneIdException();
             }
 
             var plane = await _planeRepository.GetPlaneById(flightDTO.PlaneId);
+
             if (plane is null)
             {
-                throw new KeyNotFoundException("Plane with given id does not exist");
+                throw new PlaneNotFoundException();
             }
 
             return await _flightRepository.Create(flightDTO);
@@ -35,14 +37,14 @@ namespace FlightAPI.Services.Implementations
         {
             if (id <= 0)
             {
-                throw new ArgumentException("FlightId must be greater than 0");
+                throw new InvalidFlightIdException();
             }
 
             var flightFromDb = await _flightRepository.GetFlightById(id);
 
             if (flightFromDb is null)
             {
-                throw new KeyNotFoundException("Flight with given id does not exist");
+                throw new FlightNotFoundException();
             }
 
             await _flightRepository.Delete(flightFromDb);
@@ -57,14 +59,14 @@ namespace FlightAPI.Services.Implementations
         {
             if (id <= 0)
             {
-                throw new ArgumentException("FlightId must be greater than 0");
+                throw new InvalidFlightIdException();
             }
 
             FlightDTO? flightDTO = await _flightRepository.GetFlightDTOById(id);
 
             if (flightDTO is null)
             {
-                throw new KeyNotFoundException("Flight with given id does not exist");
+                throw new FlightNotFoundException();
             }
 
             return flightDTO;
@@ -74,29 +76,29 @@ namespace FlightAPI.Services.Implementations
         {
             if (flightDTO is null)
             {
-                throw new ArgumentNullException(nameof(flightDTO), "Flight data cannot be null");
+                throw new NullFlightDataException();
             }
 
             if (flightDTO.Id <= 0)
             {
-                throw new ArgumentException("FlightId must be greater than 0");
+                throw new InvalidFlightIdException();
             }
 
             if (flightDTO.PlaneId <= 0)
             {
-                throw new ArgumentException("PlaneId must be greater than 0");
+                throw new InvalidPlaneIdException();
             }
 
             if (id != flightDTO.Id)
             {
-                throw new ArgumentException("Mismatch between URL id and flightDTO id");
+                throw new InvalidFlightDataException();
             }
 
             var flightFromDb = await _flightRepository.GetFlightById(flightDTO.Id);
 
             if (flightFromDb is null)
             {
-                throw new KeyNotFoundException("Flight with given id does not exist");
+                throw new FlightNotFoundException();
             }
 
             return await _flightRepository.Update(flightDTO, flightFromDb);
