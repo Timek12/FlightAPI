@@ -17,151 +17,46 @@ namespace FlightAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                _response.Result = await _flightService.GetAllFlights();
-                _response.StatusCode = HttpStatusCode.OK;
-                _response.IsSuccess = true;
-                return Ok(_response);
-            }
-            catch (FlightNotFoundException ex)
-            {
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
+            _response.Result = await _flightService.GetAllFlights();
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            return Ok(_response);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                _response.Result = await _flightService.GetFlightDTOById(id); ;
-                _response.IsSuccess = true;
-                _response.StatusCode = HttpStatusCode.OK;
-                return Ok(_response);
-            }
-            catch (InvalidFlightIdException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (FlightNotFoundException ex)
-            {
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
+            _response.Result = await _flightService.GetFlightDTOById(id); ;
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateFlightDTO flightDTO)
         {
-            try
-            {
-                var newFlightDTO = await _flightService.CreateFlight(flightDTO);
-                _response.Result = newFlightDTO;
-                _response.IsSuccess = true;
-                _response.StatusCode = HttpStatusCode.Created;
-                return CreatedAtAction(nameof(Get), new { id = newFlightDTO.Id }, _response);
-            }
-            catch (NullFlightDataException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (InvalidPlaneIdException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (PlaneNotFoundException ex)
-            {
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
+            var newFlightDTO = await _flightService.CreateFlight(flightDTO);
+            _response.Result = newFlightDTO;
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.Created;
+            return CreatedAtAction(nameof(Get), new { id = newFlightDTO.Id }, _response);
         }
 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, UpdateFlightDTO flightDTO)
         {
-            try
-            {
-                _response.Result = await _flightService.UpdateFlight(id, flightDTO);
-                _response.IsSuccess = true;
-                _response.StatusCode = HttpStatusCode.OK;
-                return Ok(_response);
-            }
-            catch (NullFlightDataException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (InvalidFlightIdException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (InvalidPlaneIdException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (InvalidFlightDataException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (FlightNotFoundException ex)
-            {
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
+            _response.Result = await _flightService.UpdateFlight(id, flightDTO);
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                await _flightService.DeleteFlight(id);
-                return NoContent();
-            }
-            catch (InvalidFlightIdException ex)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-            catch (FlightNotFoundException ex)
-            {
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.Errors.Add(ex.Message);
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
+            await _flightService.DeleteFlight(id);
+            return NoContent();
+
         }
     }
 }

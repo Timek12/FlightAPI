@@ -3,7 +3,6 @@ using FlightAPI.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using FlightAPI.Services.Interfaces;
-using FlightAPI.Exceptions;
 
 namespace FlightAPI.Controllers
 {
@@ -17,61 +16,20 @@ namespace FlightAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequestDTO)
         {
-            try
-            {
-                await _authService.RegisterUser(registerRequestDTO);
-                _response.StatusCode = HttpStatusCode.OK;
-                _response.IsSuccess = true;
-                return Ok(_response);
-            }
-            catch (UserNotFoundException ex)
-            {
-                _response.Errors.Add(ex.Message);
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
-            catch (FailedToCreateUserException ex)
-            {
-                _response.Errors.Add(ex.Message);
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
+
+            await _authService.RegisterUser(registerRequestDTO);
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            return Ok(_response);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginRequestDTO)
         {
-            try
-            {
-                _response.Result = await _authService.LoginUser(loginRequestDTO);
-                _response.StatusCode = HttpStatusCode.OK;
-                _response.IsSuccess = true;
-                return Ok(_response);
-            }
-            catch (AuthenticationException ex)
-            {
-                _response.Errors.Add(ex.Message);
-                _response.StatusCode = HttpStatusCode.Unauthorized;
-                _response.IsSuccess = false;
-                return Unauthorized(_response);
-            }
-            catch (UserNotFoundException ex)
-            {
-                _response.Errors.Add(ex.Message);
-                _response.StatusCode = HttpStatusCode.NotFound;
-                _response.IsSuccess = false;
-                return NotFound(_response);
-            }
-            catch (FailedToGenerateTokenException ex)
-            {
-                _response.Errors.Add(ex.Message);
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.IsSuccess = false;
-                return BadRequest(_response);
-            }
-
+            _response.Result = await _authService.LoginUser(loginRequestDTO);
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            return Ok(_response);
         }
     }
 }
