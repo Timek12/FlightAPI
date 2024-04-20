@@ -27,9 +27,9 @@ namespace FlightAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginRequestDTO)
         {
             _response.Result = await _authService.LoginUser(loginRequestDTO);
-            _response.StatusCode = HttpStatusCode.OK;
+            _response.StatusCode = HttpStatusCode.Created;
             _response.IsSuccess = true;
-            return Ok(_response);
+            return CreatedAtAction(nameof(Login), _response);
         }
     }
 }
