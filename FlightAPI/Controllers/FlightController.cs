@@ -43,7 +43,7 @@ namespace FlightAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, UpdateFlightDTO flightDTO)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateFlightDTO flightDTO)
         {
             _response.Result = await _flightService.UpdateFlight(id, flightDTO);
             _response.IsSuccess = true;
@@ -55,8 +55,9 @@ namespace FlightAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _flightService.DeleteFlight(id);
-            return NoContent();
-
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
         }
     }
 }
