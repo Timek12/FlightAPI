@@ -12,6 +12,7 @@ using FlightAPI.Services.Implementations;
 using FlightAPI.Repositories.Interfaces;
 using FlightAPI.Repositories.Implementations;
 using FlightAPI.Utility;
+using FlightAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +59,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Swagger documentation to add support for JWT Bearer
 builder.Services.AddSwaggerGen(options =>
 {
-    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
     {
         Description =
             "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
@@ -88,6 +89,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
