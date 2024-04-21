@@ -29,6 +29,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDbConnection"));
 });
 
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); // Add this line
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightAPI.Repositories.Implementations
 {
-    public class AuthRepository(ApplicationDbContext db) : IAuthRepository
+    public class AuthRepository(IApplicationDbContext db) : IAuthRepository
     {
-        private readonly ApplicationDbContext _db = db;
+        private readonly IApplicationDbContext _db = db;
 
         public async Task<ApplicationUser?> GetUserByEmail(string email)
         {

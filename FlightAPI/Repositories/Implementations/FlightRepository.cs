@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightAPI.Repositories.Implementations
 {
-    public class FlightRepository(ApplicationDbContext db, IMapper mapper) : IFlightRepository
+    public class FlightRepository(IApplicationDbContext db, IMapper mapper) : IFlightRepository
     {
-        private readonly ApplicationDbContext _db = db;
+        private readonly IApplicationDbContext _db = db;
         private readonly IMapper _mapper = mapper;
 
         public async Task<FlightDTO> Create(CreateFlightDTO flightDTO)

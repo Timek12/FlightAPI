@@ -5,7 +5,7 @@ using FlightAPI.Utility.Enums;
 
 namespace FlightAPI.Data
 {
-    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
+    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options), IApplicationDbContext
     {
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Flight> Flights { get; set; }
