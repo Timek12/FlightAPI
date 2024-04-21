@@ -26,6 +26,7 @@ namespace FlightAPI.Tests.Repositories
             });
             _mapper = config.CreateMapper();
 
+            _mockLogger = new Mock<ILogger<FlightRepository>>();
             // Setup DbContext
             _mockDbContext = new Mock<IApplicationDbContext>();
 
