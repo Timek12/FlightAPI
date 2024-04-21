@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FlightAPI.Exceptions;
+﻿using FlightAPI.Exceptions;
 using FlightAPI.Middleware;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Repositories.Interfaces;
@@ -9,7 +8,6 @@ namespace FlightAPI.Services.Implementations
 {
     public class FlightService(IFlightRepository flightRepository,
         IPlaneRepository planeRepository,
-        IMapper mapper,
         ILogger<ExceptionHandlingMiddleware> logger) : IFlightService
     {
         private readonly IFlightRepository _flightRepository = flightRepository;

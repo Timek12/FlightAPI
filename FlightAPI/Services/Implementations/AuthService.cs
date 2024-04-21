@@ -16,7 +16,6 @@ namespace FlightAPI.Services.Implementations
     public class AuthService(IAuthRepository authRepository,
         IConfiguration configuration,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager,
         ILogger<ExceptionHandlingMiddleware> logger) : IAuthService
     {
         private readonly IAuthRepository _authRepository = authRepository;
