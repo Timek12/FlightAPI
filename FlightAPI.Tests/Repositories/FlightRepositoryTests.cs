@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Castle.Core.Logging;
 using FlightAPI.Data;
 using FlightAPI.Exceptions;
 using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Profiles;
 using FlightAPI.Repositories.Implementations;
+using Microsoft.Extensions.Logging;
 using MockQueryable.Moq;
 using Moq;
 
@@ -16,6 +18,7 @@ namespace FlightAPI.Tests.Repositories
         private readonly FlightRepository _flightRepository;
         private readonly Mock<IApplicationDbContext> _mockDbContext;
         private readonly IMapper _mapper;
+        private readonly Mock<ILogger<FlightRepository>> _mockLogger;
 
         public FlightRepositoryTests()
         {
@@ -26,7 +29,9 @@ namespace FlightAPI.Tests.Repositories
             });
             _mapper = config.CreateMapper();
 
+            // Setup Logger
             _mockLogger = new Mock<ILogger<FlightRepository>>();
+
             // Setup DbContext
             _mockDbContext = new Mock<IApplicationDbContext>();
 
@@ -48,7 +53,7 @@ namespace FlightAPI.Tests.Repositories
             _mockDbContext.Setup(f => f.Flights).Returns(mockFlights.Object);
             _mockDbContext.Setup(p => p.Planes).Returns(planesFlights.Object);
 
-            _flightRepository = new FlightRepository(_mockDbContext.Object, _mapper);
+            _flightRepository = new FlightRepository(_mockDbContext.Object, _mapper, _mockLogger.Object);
         }
 
         [Fact]
