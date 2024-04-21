@@ -31,7 +31,6 @@ namespace FlightAPI.Services.Implementations
             if (userFromDb is null)
             {
                 throw new UserNotFoundException();
-
             }
 
             bool isValidPassword = await _userManager.CheckPasswordAsync(userFromDb, loginRequestDTO.Password);
@@ -83,7 +82,7 @@ namespace FlightAPI.Services.Implementations
 
             // For development purposes only
 
-            if (registerRequestDTO.Role.Equals(Constants.Role_Admin, StringComparison.CurrentCultureIgnoreCase))
+            if (registerRequestDTO.Role != null && registerRequestDTO.Role.Equals(Constants.Role_Admin, StringComparison.CurrentCultureIgnoreCase))
             {
                 await _userManager.AddToRoleAsync(newUser, Constants.Role_Admin);
             }
