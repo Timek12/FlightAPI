@@ -12,7 +12,7 @@ namespace FlightAPI.Repositories.Implementations
 
         public async Task<ApplicationUser?> GetUserByEmail(string email)
         {
-            return await _db.ApplicationUsers.FirstOrDefaultAsync(u => EF.Functions.Like(u.Email, email));
+            return await _db.ApplicationUsers.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
         }
     }
 }
