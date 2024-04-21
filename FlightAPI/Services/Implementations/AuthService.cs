@@ -1,4 +1,5 @@
 ﻿using FlightAPI.Exceptions;
+using FlightAPI.Middleware;
 using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Repositories.Interfaces;
@@ -12,16 +13,21 @@ using System.Text;
 
 namespace FlightAPI.Services.Implementations
 {
-    public class AuthService(IAuthRepository authRepository, IConfiguration configuration,
-        UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IAuthService
+    public class AuthService(IAuthRepository authRepository,
+        IConfiguration configuration,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        ILogger<ExceptionHandlingMiddleware> logger) : IAuthService
     {
         private readonly IAuthRepository _authRepository = authRepository;
         private readonly string _secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
         private readonly int _tokenExpirationDays = configuration.GetValue<int>("ApiSettings:TokenExpirationDays");
         private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
         public async Task<LoginResponseDTO> LoginUser(LoginRequestDTO loginRequestDTO)
         {
+            _logger.LogInformation($"User with email: {loginRequestDTO.Email} attempting to log in.");
             ApplicationUser? userFromDb = await _authRepository.GetUserByEmail(loginRequestDTO.Email);
             if (userFromDb is null)
             {
@@ -53,6 +59,7 @@ namespace FlightAPI.Services.Implementations
 
         public async Task RegisterUser(RegisterRequestDTO registerRequestDTO)
         {
+            _logger.LogInformation($"Registering user with email: {registerRequestDTO.Email}.");
             ApplicationUser? userFromDb = await _authRepository.GetUserByEmail(registerRequestDTO.Email);
             if (userFromDb is not null)
             {

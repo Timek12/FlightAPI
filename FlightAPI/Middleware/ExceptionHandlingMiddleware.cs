@@ -9,10 +9,12 @@ namespace FlightAPI.Middleware
     public class ExceptionHandlingMiddleware
     {
         public readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -23,6 +25,7 @@ namespace FlightAPI.Middleware
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An exception has occurred while executing the request.");
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -48,17 +51,17 @@ namespace FlightAPI.Middleware
         {
             switch (exception)
             {
-                case UserNotFoundException:
-                case FlightNotFoundException:
+                case UserNotFoundException
+                or FlightNotFoundException:
                     return HttpStatusCode.NotFound;
                 case AuthenticationException:
                     return HttpStatusCode.Unauthorized;
-                case FailedToCreateUserException:
-                case FailedToGenerateTokenException:
-                case NullFlightDataException:
-                case InvalidFlightIdException:
-                case InvalidPlaneIdException:
-                case InvalidFlightDataException:
+                case FailedToCreateUserException
+                or FailedToGenerateTokenException
+                or NullFlightDataException
+                or InvalidFlightIdException
+                or InvalidPlaneIdException
+                or InvalidFlightDataException:
                     return HttpStatusCode.BadRequest;
                 default:
                     return HttpStatusCode.InternalServerError;
