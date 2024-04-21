@@ -13,8 +13,16 @@ using FlightAPI.Repositories.Interfaces;
 using FlightAPI.Repositories.Implementations;
 using FlightAPI.Utility;
 using FlightAPI.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/logs.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
