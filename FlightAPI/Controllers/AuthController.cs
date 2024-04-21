@@ -16,7 +16,6 @@ namespace FlightAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequestDTO)
         {
-
             await _authService.RegisterUser(registerRequestDTO);
             _response.StatusCode = HttpStatusCode.OK;
             _response.IsSuccess = true;
