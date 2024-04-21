@@ -13,12 +13,12 @@ using System.Text;
 
 namespace FlightAPI.Services.Implementations
 {
-    public class AuthService(IAuthRepository authRepository,
+    public class AuthService(IUserRepository userRepository,
         IConfiguration configuration,
         UserManager<ApplicationUser> userManager,
         ILogger<ExceptionHandlingMiddleware> logger) : IAuthService
     {
-        private readonly IAuthRepository _authRepository = authRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly string _secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
         private readonly int _tokenExpirationDays = configuration.GetValue<int>("ApiSettings:TokenExpirationDays");
         private readonly UserManager<ApplicationUser> _userManager = userManager;
@@ -27,7 +27,7 @@ namespace FlightAPI.Services.Implementations
         public async Task<LoginResponseDTO> LoginUser(LoginRequestDTO loginRequestDTO)
         {
             _logger.LogInformation($"User with email: {loginRequestDTO.Email} attempting to log in.");
-            ApplicationUser? userFromDb = await _authRepository.GetUserByEmail(loginRequestDTO.Email);
+            ApplicationUser? userFromDb = await _userRepository.GetUserByEmail(loginRequestDTO.Email);
             if (userFromDb is null)
             {
                 throw new UserNotFoundException();
@@ -59,7 +59,7 @@ namespace FlightAPI.Services.Implementations
         public async Task RegisterUser(RegisterRequestDTO registerRequestDTO)
         {
             _logger.LogInformation($"Registering user with email: {registerRequestDTO.Email}.");
-            ApplicationUser? userFromDb = await _authRepository.GetUserByEmail(registerRequestDTO.Email);
+            ApplicationUser? userFromDb = await _userRepository.GetUserByEmail(registerRequestDTO.Email);
             if (userFromDb is not null)
             {
                 throw new UserNotFoundException();

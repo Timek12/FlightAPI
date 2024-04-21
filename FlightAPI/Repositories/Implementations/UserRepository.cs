@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightAPI.Repositories.Implementations
 {
-    public class AuthRepository(IApplicationDbContext db) : IAuthRepository
+    public class UserRepository(IApplicationDbContext db) : IUserRepository
     {
         private readonly IApplicationDbContext _db = db;
 

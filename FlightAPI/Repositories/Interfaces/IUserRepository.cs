@@ -2,7 +2,7 @@
 
 namespace FlightAPI.Repositories.Interfaces
 {
-    public interface IAuthRepository
+    public interface IUserRepository
     {
         Task<ApplicationUser?> GetUserByEmail(string email);
     }
