@@ -55,8 +55,7 @@ git clone https://github.com/Timek12/FlightAPI.git
 ### 2. Open .sln file 
 
 ### 3. Add connection string in appsettings.json file
-![image](https://github.com/Timek12/FlightAPI/assets/105653616/f3a52a46-8e0c-478f-8b2f-89d5da2e954f)
-
+![image](https://github.com/Timek12/FlightAPI/assets/105653616/5bc314fd-b8db-4cf1-87e7-743702345eea)
 
 
 ### 4. Open Package Manager Console (in VS 2022 Tools -> Nuget Package Manager -> Package Manager Console)
