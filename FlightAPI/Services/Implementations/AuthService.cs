@@ -25,7 +25,7 @@ namespace FlightAPI.Services.Implementations
         private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
         private readonly IConfiguration _configuration = configuration;
         private readonly string _secretKey = configuration?.GetValue<string>("JwtSettings:Secret") ?? string.Empty;
-        private readonly int _tokenExpirationDays = configuration.GetValue<int>("JwtSettings:TokenExpirationDays");
+        private readonly int _tokenExpirationDays = configuration.GetValue<int>("JwtSettings:RefreshTokenValidityInDays");
 
         public async Task<LoginResponseDTO> LoginUser(LoginRequestDTO loginRequestDTO)
         {
