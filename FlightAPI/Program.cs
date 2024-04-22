@@ -21,17 +21,11 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("Logs/logs.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
-
 builder.Host.UseSerilog();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDbConnection"));
-});
+ConfigurationManager configuration = builder.Configuration;
 
-builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); // Add this line
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); 
 
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
@@ -39,29 +33,45 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IFlightService, FlightService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddCors();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-var key = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDbConnection"));
+});
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// Adding Authentication
 
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+
+// Adding Jwt Bearer
+.AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-        ValidateIssuer = false,
-        ValidateAudience = false
+        ClockSkew = TimeSpan.Zero,
+
+        ValidAudience = configuration["JwtSettings:ValidAudience"],
+        ValidIssuer = configuration["JwtSettings:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]))
     };
-
 });
-
-builder.Services.AddCors();
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -125,8 +135,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
