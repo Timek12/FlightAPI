@@ -16,11 +16,13 @@ namespace FlightAPI.Services.Implementations
 
         public async Task<FlightDTO> CreateFlight(CreateFlightDTO flightDTO)
         {
-            _logger.LogInformation($"Creating a new flight with Flight Number: {flightDTO.FlightNumber}.");
             if (flightDTO is null)
             {
                 throw new NullFlightDataException();
             }
+
+            _logger.LogInformation($"Creating a new flight with Flight Number: {flightDTO.FlightNumber}.");
+
 
             if (flightDTO.PlaneId <= 0)
             {
@@ -81,11 +83,13 @@ namespace FlightAPI.Services.Implementations
 
         public async Task<FlightDTO> UpdateFlight(int id, UpdateFlightDTO flightDTO)
         {
-            _logger.LogInformation($"Updating flight with ID: {id}.");
             if (flightDTO is null)
             {
                 throw new NullFlightDataException();
             }
+
+            _logger.LogInformation($"Updating flight with ID: {id}.");
+
 
             if (flightDTO.Id <= 0)
             {
