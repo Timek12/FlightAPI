@@ -3,6 +3,7 @@ using FlightAPI.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using FlightAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlightAPI.Controllers
 {
@@ -29,6 +30,35 @@ namespace FlightAPI.Controllers
             _response.StatusCode = HttpStatusCode.Created;
             _response.IsSuccess = true;
             return CreatedAtAction(nameof(Login), _response);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken(TokenModel tokenModel)
+        {
+            await _authService.RefreshToken(tokenModel);
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            return Ok(_response);
+        }
+
+        [Authorize]
+        [HttpPost("revoke/{email}")]
+        public async Task<IActionResult> Revoke(string email)
+        {
+            await _authService.Revoke(email);
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            return Ok(_response);
+        }
+
+        [Authorize]
+        [HttpPost("revoke-all")]
+        public async Task<IActionResult> RevokeAll()
+        {
+            await _authService.RevokeAll();
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.IsSuccess = true;
+            return Ok(_response);
         }
     }
 }
