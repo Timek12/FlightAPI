@@ -58,7 +58,8 @@ git clone https://github.com/Timek12/FlightAPI.git
 ![image](https://github.com/Timek12/FlightAPI/assets/105653616/5bc314fd-b8db-4cf1-87e7-743702345eea)
 
 
-### 4. Open Package Manager Console (in VS 2022 Tools -> Nuget Package Manager -> Package Manager Console)
+### 4. Open Package Manager Console
+(VS 2022: Tools -> Nuget Package Manager -> Package Manager Console)
 
 ### 5. Run command:
 ```
