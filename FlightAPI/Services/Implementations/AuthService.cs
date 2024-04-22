@@ -61,7 +61,7 @@ namespace FlightAPI.Services.Implementations
             ApplicationUser? userFromDb = await _userRepository.GetUserByEmail(registerRequestDTO.Email);
             if (userFromDb is not null)
             {
-                throw new UserNotFoundException();
+                throw new UserAlreadyExistsException();
             }
 
             ApplicationUser newUser = new()
@@ -77,7 +77,8 @@ namespace FlightAPI.Services.Implementations
 
             if (!result.Succeeded)
             {
-                throw new FailedToCreateUserException();
+                var errorMessage = string.Join(", ", result.Errors.Select(x => x.Description));
+                throw new FailedToCreateUserException($"Failed to create a new user: {errorMessage}");
             }
 
             // For development purposes only

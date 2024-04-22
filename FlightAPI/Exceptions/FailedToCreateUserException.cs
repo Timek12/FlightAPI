@@ -5,6 +5,6 @@
     /// </summary>
     public class FailedToCreateUserException : Exception
     {
-        public FailedToCreateUserException() : base("Failed to create a new user") { }
+        public FailedToCreateUserException(string message) : base(message) { }
     }
 }
