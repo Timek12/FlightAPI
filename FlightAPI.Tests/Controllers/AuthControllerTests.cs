@@ -56,7 +56,7 @@ namespace FlightAPI.Tests.Controllers
             const string token = "3eQmpDMANAFw8IohOuLVr0U0Bz4CDEFe";
 
             _mockAuthService.Setup(service => service.LoginUser(loginRequestDTO))
-                            .ReturnsAsync(new LoginResponseDTO { Email = loginRequestDTO.Email, Token = token });
+                            .ReturnsAsync(new LoginResponseDTO { Token = token });
             // Act
             var result = await _authController.Login(loginRequestDTO);
 
@@ -68,7 +68,6 @@ namespace FlightAPI.Tests.Controllers
 
             var response = Assert.IsType<ApiResponse>(createdAtActionResult.Value);
             var loginResponse = Assert.IsType<LoginResponseDTO>(response.Result);
-            Assert.Equal(loginRequestDTO.Email, loginResponse.Email);
             Assert.Equal(token, loginResponse.Token);
         }
 
