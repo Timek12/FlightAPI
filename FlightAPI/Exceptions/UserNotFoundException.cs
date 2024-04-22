@@ -1,7 +1,7 @@
 ﻿namespace FlightAPI.Exceptions
 {
     /// <summary>
-    /// Exception that is thrown user with a given email does not exist in database.
+    /// Exception that is thrown when user does not exist in database.
     /// </summary>
     public class UserNotFoundException : Exception
     {
