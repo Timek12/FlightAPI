@@ -19,6 +19,8 @@
 - Mocking with Moq 
 -	Repository layer unit tests
 -	Service layer unit tests
+-	Controller layer unit tests
+
 </br>
 
 **Error Handling**
@@ -27,7 +29,7 @@
 </br>
 
 **Logging**
--	Logging
+-	Serilog
 </br>
 
 **Data Access**
