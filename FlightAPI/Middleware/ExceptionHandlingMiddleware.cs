@@ -54,8 +54,11 @@ namespace FlightAPI.Middleware
                 case UserNotFoundException
                 or FlightNotFoundException:
                     return HttpStatusCode.NotFound;
-                case AuthenticationException:
+                case AuthenticationException
+                or InvalidRefreshTokenException:
                     return HttpStatusCode.Unauthorized;
+                case InvalidAccessTokenException:
+                    return HttpStatusCode.Forbidden;
                 case FailedToCreateUserException
                 or FailedToGenerateTokenException
                 or NullFlightDataException
