@@ -61,7 +61,8 @@ namespace FlightAPI.Middleware
                 or NullFlightDataException
                 or InvalidFlightIdException
                 or InvalidPlaneIdException
-                or InvalidFlightDataException:
+                or InvalidFlightDataException
+                or UserAlreadyExistsException:
                     return HttpStatusCode.BadRequest;
                 default:
                     return HttpStatusCode.InternalServerError;
