@@ -33,7 +33,6 @@ namespace FlightAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateFlightDTO flightDTO)
         {
             var newFlightDTO = await _flightService.CreateFlight(flightDTO);
@@ -54,7 +53,6 @@ namespace FlightAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             await _flightService.DeleteFlight(id);
