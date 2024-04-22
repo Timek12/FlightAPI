@@ -46,7 +46,24 @@
 -	AutoMapper
 </br>
 
-> :warning: **For safety reasons, I untracked appsettings.json file from git**
->  </br> 
-> For the application to work correctly, add appsettings.file like below:
-![image](https://github.com/Timek12/FlightAPI/assets/105653616/bfb653ec-7609-4673-b999-e26c1a242017)
+## Running the project locally
+
+### 1. Clone repository: 
+```
+git clone https://github.com/Timek12/FlightAPI.git
+```
+### 2. Open .sln file 
+
+### 3. Add connection string in appsettings.json file
+![image](https://github.com/Timek12/FlightAPI/assets/105653616/f3a52a46-8e0c-478f-8b2f-89d5da2e954f)
+
+
+
+### 4. Open Package Manager Console (in VS 2022 Tools -> Nuget Package Manager -> Package Manager Console)
+
+### 5. Run command:
+```
+update-database
+```
+### 6. Run Project
+
