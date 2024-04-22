@@ -7,5 +7,8 @@ namespace FlightAPI.Services.Interfaces
     {
         Task  RegisterUser(RegisterRequestDTO registerRequestDTO);
         Task<LoginResponseDTO> LoginUser(LoginRequestDTO loginRequestDTO);
+        Task<TokenModel> RefreshToken(TokenModel tokenModel);
+        Task Revoke(string email);
+        Task RevokeAll();
     }
 }
