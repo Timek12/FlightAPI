@@ -4,6 +4,6 @@ namespace FlightAPI.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<ApplicationUser?> GetUserByEmail(string email);
+        Task<ApplicationUser?> GetUserByEmail(string email, bool tracked = true);
     }
 }

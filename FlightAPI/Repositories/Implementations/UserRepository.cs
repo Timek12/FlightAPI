@@ -10,9 +10,13 @@ namespace FlightAPI.Repositories.Implementations
     {
         private readonly IApplicationDbContext _db = db;
 
-        public async Task<ApplicationUser?> GetUserByEmail(string email)
+        public async Task<ApplicationUser?> GetUserByEmail(string email, bool tracked = true)
         {
-            return await _db.ApplicationUsers.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            if (tracked)
+            {
+                return await _db.ApplicationUsers.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            }
+            return await _db.ApplicationUsers.AsNoTracking().FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
         }
     }
 }
