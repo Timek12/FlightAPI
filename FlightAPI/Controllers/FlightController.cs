@@ -1,6 +1,7 @@
 ﻿using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -32,6 +33,7 @@ namespace FlightAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateFlightDTO flightDTO)
         {
             var newFlightDTO = await _flightService.CreateFlight(flightDTO);
@@ -42,6 +44,7 @@ namespace FlightAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateFlightDTO flightDTO)
         {
             _response.Result = await _flightService.UpdateFlight(id, flightDTO);
@@ -51,6 +54,7 @@ namespace FlightAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             await _flightService.DeleteFlight(id);
