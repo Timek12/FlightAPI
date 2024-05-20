@@ -4,6 +4,8 @@
   The application is built with a focus on clean architecture, separating concerns into different layers including service and repository layers.
 </h3>
 
+You can find the frontend for this app [here](https://github.com/Timek12/FlightWeb).
+
 **Functional Features**
 -	Flight CRUD operations
 -	JWT authentication
