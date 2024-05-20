@@ -9,7 +9,7 @@ namespace FlightAPI.Controllers
 {
     [Route("api/flights")]
     [ApiController]
-    public class FlightController(IFlightService flightService) : ControllerBase
+       public class FlightController(IFlightService flightService) : ControllerBase
     {
         private readonly IFlightService _flightService = flightService;
         private readonly ApiResponse _response = new();
@@ -33,6 +33,7 @@ namespace FlightAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateFlightDTO flightDTO)
         {
             var newFlightDTO = await _flightService.CreateFlight(flightDTO);
@@ -53,6 +54,7 @@ namespace FlightAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             await _flightService.DeleteFlight(id);
