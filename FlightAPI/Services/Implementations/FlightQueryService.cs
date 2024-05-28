@@ -1,14 +1,15 @@
 ﻿using FlightAPI.Exceptions;
+using FlightAPI.Middleware;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Repositories.Interfaces;
 using FlightAPI.Services.Interfaces;
 
 namespace FlightAPI.Services.Implementations
 {
-    public class FlightQueryService(IFlightDapperRepository flightDapperRepository, ILogger logger) : IFlightQueryService
+    public class FlightQueryService(IFlightDapperRepository flightDapperRepository, ILogger<ExceptionHandlingMiddleware> logger) : IFlightQueryService
     {
         private readonly IFlightDapperRepository _flightDapperRepository = flightDapperRepository;
-        private readonly ILogger _logger = logger;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
         public async Task<IEnumerable<FlightDTO>> GetAllFlights()
         {
