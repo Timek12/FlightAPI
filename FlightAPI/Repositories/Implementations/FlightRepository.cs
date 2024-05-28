@@ -51,27 +51,6 @@ namespace FlightAPI.Repositories.Implementations
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<FlightDTO>> GetAll()
-        {
-            return await _db.Flights
-                .Include(f => f.Plane)
-                .ProjectTo<FlightDTO>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-        }
-
-        public async Task<Flight?> GetFlightById(int id)
-        {
-            return await _db.Flights.FirstOrDefaultAsync(f => f.Id == id);
-        }
-
-        public async Task<FlightDTO?> GetFlightDTOById(int id)
-        {
-            return await _db.Flights
-            .Include(f => f.Plane)
-            .ProjectTo<FlightDTO>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(f => f.Id == id);
-        }
-
         public async Task<FlightDTO> Update(UpdateFlightDTO flightDTO, Flight flight)
         {
             if(flight is null || flightDTO is null)
