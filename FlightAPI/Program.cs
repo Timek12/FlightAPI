@@ -26,7 +26,7 @@ builder.Host.UseSerilog();
 ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); 
-
+builder.Services.AddSingleton<IDapperContext, DapperContext>();
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
