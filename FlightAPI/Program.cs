@@ -27,12 +27,17 @@ ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>(); 
 builder.Services.AddSingleton<IDapperContext, DapperContext>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+builder.Services.AddScoped<IFlightDapperRepository, FlightDapperRepository>();
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IFlightCommandService, FlightCommandService>();
+builder.Services.AddScoped<IFlightQueryService, FlightQueryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddCors();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
