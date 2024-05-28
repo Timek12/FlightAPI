@@ -2,10 +2,8 @@
 
 namespace FlightAPI.Services.Interfaces
 {
-    public interface IFlightService
+    public interface IFlightCommandService
     {
-        Task<IEnumerable<FlightDTO>> GetAllFlights();
-        Task<FlightDTO> GetFlightDTOById(int id);
         Task<FlightDTO> UpdateFlight(int id, UpdateFlightDTO flightDTO);
         Task<FlightDTO> CreateFlight(CreateFlightDTO flightDTO);
         Task DeleteFlight(int id);

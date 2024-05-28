@@ -6,11 +6,12 @@ using FlightAPI.Services.Interfaces;
 
 namespace FlightAPI.Services.Implementations
 {
-    public class FlightService(IFlightRepository flightRepository,
+    public class FlightCommandService(IFlightRepository flightRepository, IFlightDapperRepository flightDapperRepository,
         IPlaneRepository planeRepository,
-        ILogger<ExceptionHandlingMiddleware> logger) : IFlightService
+        ILogger<ExceptionHandlingMiddleware> logger) : IFlightCommandService
     {
         private readonly IFlightRepository _flightRepository = flightRepository;
+        private readonly IFlightDapperRepository _flightDapperRepository = flightDapperRepository;  
         private readonly IPlaneRepository _planeRepository = planeRepository;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
@@ -47,7 +48,7 @@ namespace FlightAPI.Services.Implementations
                 throw new InvalidFlightIdException();
             }
 
-            var flightFromDb = await _flightRepository.GetFlightById(id);
+            var flightFromDb = await _flightDapperRepository.GetFlightById(id);
 
             if (flightFromDb is null)
             {
@@ -55,30 +56,6 @@ namespace FlightAPI.Services.Implementations
             }
 
             await _flightRepository.Delete(flightFromDb);
-        }
-
-        public async Task<IEnumerable<FlightDTO>> GetAllFlights()
-        {
-            _logger.LogInformation("Getting all flights.");
-            return await _flightRepository.GetAll();
-        }
-
-        public async Task<FlightDTO> GetFlightDTOById(int id)
-        {
-            _logger.LogInformation($"Getting flight with ID: {id}.");
-            if (id <= 0)
-            {
-                throw new InvalidFlightIdException();
-            }
-
-            FlightDTO? flightDTO = await _flightRepository.GetFlightDTOById(id);
-
-            if (flightDTO is null)
-            {
-                throw new FlightNotFoundException();
-            }
-
-            return flightDTO;
         }
 
         public async Task<FlightDTO> UpdateFlight(int id, UpdateFlightDTO flightDTO)
@@ -106,7 +83,7 @@ namespace FlightAPI.Services.Implementations
                 throw new InvalidFlightDataException();
             }
 
-            var flightFromDb = await _flightRepository.GetFlightById(flightDTO.Id);
+            var flightFromDb = await _flightDapperRepository.GetFlightById(flightDTO.Id);
 
             if (flightFromDb is null)
             {
