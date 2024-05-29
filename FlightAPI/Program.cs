@@ -32,8 +32,12 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Progr
 builder.Services.AddScoped<IFlightDapperRepository, FlightDapperRepository>();
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
+builder.Services.AddScoped<IPlaneDapperRepository, PlaneDapperRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+
+builder.Services.AddScoped<IPlaneCommandService, PlaneCommandService>();
+builder.Services.AddScoped<IPlaneQueryService, PlaneQueryService>();
 builder.Services.AddScoped<IFlightCommandService, FlightCommandService>();
 builder.Services.AddScoped<IFlightQueryService, FlightQueryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
