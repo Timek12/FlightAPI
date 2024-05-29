@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FlightAPI.Controllers;
-using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Services.Interfaces;
 using FlightAPI.Utility;

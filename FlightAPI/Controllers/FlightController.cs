@@ -1,7 +1,6 @@
 ﻿using FlightAPI.Commands.CreateFlightCommand;
 using FlightAPI.Commands.DeleteFlightCommand;
 using FlightAPI.Commands.UpdateFlightCommand;
-using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Queries.GetAllFlightsQuery;
 using FlightAPI.Queries.GetFlightByIdQuery;

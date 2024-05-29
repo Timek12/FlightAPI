@@ -1,5 +1,4 @@
-﻿using FlightAPI.Models;
-using FlightAPI.Models.DTOs;
+﻿using FlightAPI.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using FlightAPI.Services.Interfaces;

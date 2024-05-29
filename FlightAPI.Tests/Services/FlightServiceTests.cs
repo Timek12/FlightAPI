@@ -14,7 +14,7 @@ namespace FlightAPI.Tests.Services
         private readonly Mock<IFlightRepository> _mockFlightRepository;
         private readonly Mock<IPlaneRepository> _mockPlaneRepository;
         private readonly Mock<ILogger<ExceptionHandlingMiddleware>> _mockLogger;
-        private readonly FlightService _flightService;
+        private readonly FlightCommandService _flightService;
 
         public FlightServiceTests()
         {

@@ -1,5 +1,4 @@
-﻿using FlightAPI.Models;
-using FlightAPI.Models.DTOs;
+﻿using FlightAPI.Models.DTOs;
 
 namespace FlightAPI.Services.Interfaces
 {

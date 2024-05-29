@@ -1,25 +1,19 @@
 ﻿using FlightAPI.Controllers;
-using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlightAPI.Tests.Controllers
 {
     public class FlightControllerTests
     {
-        private readonly Mock<IFlightService> _mockFlightService;
+        private readonly Mock<IFlightCommandService> _mockFlightService;
         private readonly FlightController _flightController;
 
         public FlightControllerTests()
         {
-            _mockFlightService = new Mock<IFlightService>();
+            _mockFlightService = new Mock<IFlightCommandService>();
             _flightController = new FlightController(_mockFlightService.Object);
         }
 
