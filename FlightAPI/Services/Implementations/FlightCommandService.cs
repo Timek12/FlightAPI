@@ -7,13 +7,13 @@ using FlightAPI.Services.Interfaces;
 namespace FlightAPI.Services.Implementations
 {
     public class FlightCommandService(IFlightRepository flightRepository, IFlightDapperRepository flightDapperRepository,
-        IPlaneRepository planeRepository,
-        ILogger<ExceptionHandlingMiddleware> logger) : IFlightCommandService
+        IPlaneDapperRepository planeRepository,
+        ILogger<FlightCommandService> logger) : IFlightCommandService
     {
         private readonly IFlightRepository _flightRepository = flightRepository;
         private readonly IFlightDapperRepository _flightDapperRepository = flightDapperRepository;  
-        private readonly IPlaneRepository _planeRepository = planeRepository;
-        private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
+        private readonly IPlaneDapperRepository _planeRepository = planeRepository;
+        private readonly ILogger<FlightCommandService> _logger = logger;
 
         public async Task<FlightDTO> CreateFlight(CreateFlightDTO flightDTO)
         {
