@@ -7,6 +7,6 @@ namespace FlightAPI.Repositories.Interfaces
     {
         Task<PlaneDTO> CreatePlane(CreatePlaneDTO createPlaneDTO);
         Task<PlaneDTO> UpdatePlane(UpdatePlaneDTO updatePlaneDTO, Plane plane);
-        void DeletePlane(Plane plane);
+        Task DeletePlane(Plane plane);
     }
 }
