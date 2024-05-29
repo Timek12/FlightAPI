@@ -1,8 +1,6 @@
-﻿using FlightAPI.Utility.Enums;
-
-namespace FlightAPI.Models.DTOs
+﻿namespace FlightAPI.Models.DTOs
 {
-    public class FlightDTO
+    public record FlightDTO
     {
         public int Id { get; set; }
         public string FlightNumber { get; set; }

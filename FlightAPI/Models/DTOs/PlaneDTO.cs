@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FlightAPI.Models.DTOs
+﻿namespace FlightAPI.Models.DTOs
 {
-    public class PlaneDTO
+    public record PlaneDTO
     {
         public string Model { get; set; }
         public string Type { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace FlightAPI.Models.DTOs
 {
-    public class CreateFlightDTO
+    public record CreateFlightDTO
     {
         public string FlightNumber { get; set; }
         public DateTime? DepartureDate { get; set; }

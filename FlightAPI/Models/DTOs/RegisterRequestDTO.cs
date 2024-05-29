@@ -1,6 +1,6 @@
 ﻿namespace FlightAPI.Models.DTOs
 {
-    public class RegisterRequestDTO
+    public record RegisterRequestDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

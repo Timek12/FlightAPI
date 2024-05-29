@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace FlightAPI.Models.DTOs
+﻿namespace FlightAPI.Models.DTOs
 {
-    public class UpdateFlightDTO
+    public record UpdateFlightDTO
     {
         public int Id { get; set; }
         public string FlightNumber { get; set; }
