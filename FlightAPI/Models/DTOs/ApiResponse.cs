@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Net;
 
-namespace FlightAPI.Models
+namespace FlightAPI.Models.DTOs
 {
     public class ApiResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace FlightAPI.Models
+﻿namespace FlightAPI.Models.DTOs
 {
     public class TokenModel
     {
