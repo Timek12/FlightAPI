@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using FlightAPI.Data;
 using FlightAPI.Models;
 using FlightAPI.Models.DTOs;
 using FlightAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using FlightAPI.Exceptions;
-using FlightAPI.Services.Implementations;
 
 namespace FlightAPI.Repositories.Implementations
 {
