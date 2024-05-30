@@ -44,7 +44,7 @@ namespace FlightAPI.Repositories.Implementations
             return _mapper.Map<PlaneDTO>(newPlane);
         }
 
-        public async void DeletePlane(Plane plane)
+        public async Task DeletePlane(Plane plane)
         {
             if(plane is null)
             {
