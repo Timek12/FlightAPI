@@ -1,5 +1,6 @@
 ﻿using FlightAPI.Exceptions;
 using FlightAPI.Models;
+using FlightAPI.Models.DTOs;
 using Newtonsoft.Json;
 using System;
 using System.Net;
