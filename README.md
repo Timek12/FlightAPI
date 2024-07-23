@@ -1,19 +1,22 @@
 <h3>
-  FlightAPI is a ASP.NET Core Web API application designed to manage flights.
+  FlightAPI is a ASP.NET Core Web API application designed to manage flights and planes.
   It provides a comprehensive set of features for creating, reading, updating, and deleting flight information.
-  The application is built with a focus on clean architecture, separating concerns into different layers including service and repository layers.
+  The application is built with a focus on clean architecture, repository-service pattern and CQRS pattern.
 </h3>
 
 You can find the frontend for this app [here](https://github.com/Timek12/FlightWeb).
 
 **Functional Features**
 -	Flight CRUD operations
+- Plane CRUD operations
 -	JWT authentication
 </br>
 
 **Architecture and Design**
 -	Service layer
 -	Repository layer
+- CQRS pattern
+- Mediator pattern
 </br>
 
 **Testing**
@@ -35,7 +38,8 @@ You can find the frontend for this app [here](https://github.com/Timek12/FlightW
 </br>
 
 **Data Access**
--	Entity Framework
+-	Entity Framework (write operations)
+-	Dapper (read operations)
 -	Migrations
 -	Seeding data into tables
 </br>
@@ -48,6 +52,10 @@ You can find the frontend for this app [here](https://github.com/Timek12/FlightW
 
 **Object Mapping**
 -	AutoMapper
+</br>
+
+**Containerization**
+- Dockerfile
 </br>
 
 ## Running the project locally
