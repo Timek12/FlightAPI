@@ -3,13 +3,8 @@ using MediatR;
 
 namespace FlightAPI.Commands.CreateFlightCommand
 {
-    public class CreateFlightCommand : IRequest<FlightDTO>
+    public class CreateFlightCommand(CreateFlightDTO createFlightDTO) : IRequest<FlightDTO>
     {
-        public CreateFlightDTO CreateFlightDTO { get; }
-
-        public CreateFlightCommand(CreateFlightDTO createFlightDTO)
-        {
-            CreateFlightDTO = createFlightDTO; 
-        }
+        public CreateFlightDTO CreateFlightDTO { get; } = createFlightDTO;
     }
 }

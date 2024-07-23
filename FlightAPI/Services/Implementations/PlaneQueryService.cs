@@ -5,16 +5,10 @@ using FlightAPI.Services.Interfaces;
 
 namespace FlightAPI.Services.Implementations
 {
-    public class PlaneQueryService : IPlaneQueryService
+    public class PlaneQueryService(IPlaneDapperRepository planeDapperRepository, ILogger<PlaneQueryService> logger) : IPlaneQueryService
     {
-        private readonly IPlaneDapperRepository _planeDapperRepository;
-        private readonly ILogger<PlaneQueryService> _logger;
-
-        public PlaneQueryService(IPlaneDapperRepository planeDapperRepository, ILogger<PlaneQueryService> logger)
-        {
-            _planeDapperRepository = planeDapperRepository;
-            _logger = logger;
-        }
+        private readonly IPlaneDapperRepository _planeDapperRepository = planeDapperRepository;
+        private readonly ILogger<PlaneQueryService> _logger = logger;
 
         public async Task<IEnumerable<PlaneDTO>> GetAllPlanes()
         {

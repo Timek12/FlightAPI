@@ -13,16 +13,10 @@ namespace FlightAPI.Controllers
 {
     [Route("/api/Planes")]
     [ApiController]
-    public class PlaneController : Controller
+    public class PlaneController(IMediator mediator) : Controller
     {
-        private readonly IMediator _mediator;
-        private readonly ApiResponse _response;
-
-        public PlaneController(IMediator mediator)
-        {
-            _mediator = mediator;
-            _response = new();
-        }
+        private readonly IMediator _mediator = mediator;
+        private readonly ApiResponse _response = new();
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

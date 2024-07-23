@@ -6,18 +6,11 @@ using FlightAPI.Services.Interfaces;
 
 namespace FlightAPI.Services.Implementations
 {
-    public class PlaneCommandService : IPlaneCommandService
+    public class PlaneCommandService(IPlaneRepository planeRepository, IPlaneDapperRepository planeDapperRepository, ILogger<PlaneCommandService> logger) : IPlaneCommandService
     {
-        private readonly IPlaneRepository _planeRepository;
-        private readonly IPlaneDapperRepository _planeDapperRepository;
-        private readonly ILogger<PlaneCommandService> _logger;
-
-        public PlaneCommandService(IPlaneRepository planeRepository, IPlaneDapperRepository planeDapperRepository ,ILogger<PlaneCommandService> logger)
-        {
-            _planeRepository = planeRepository;
-            _planeDapperRepository = planeDapperRepository;
-            _logger = logger;
-        }
+        private readonly IPlaneRepository _planeRepository = planeRepository;
+        private readonly IPlaneDapperRepository _planeDapperRepository = planeDapperRepository;
+        private readonly ILogger<PlaneCommandService> _logger = logger;
 
         public async Task<PlaneDTO> CreatePlane(CreatePlaneDTO createPlaneDTO)
         {

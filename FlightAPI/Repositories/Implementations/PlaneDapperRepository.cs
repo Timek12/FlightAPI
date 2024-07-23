@@ -6,14 +6,9 @@ using FlightAPI.Repositories.Interfaces;
 
 namespace FlightAPI.Repositories.Implementations
 {
-    public class PlaneDapperRepository : IPlaneDapperRepository
+    public class PlaneDapperRepository(IDapperContext dapperContext) : IPlaneDapperRepository
     {
-        private readonly IDapperContext _dapperContext;
-
-        public PlaneDapperRepository(IDapperContext dapperContext)
-        {
-            _dapperContext = dapperContext;
-        }
+        private readonly IDapperContext _dapperContext = dapperContext;
 
         public Task<IEnumerable<PlaneDTO>> GetAll()
         {

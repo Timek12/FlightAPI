@@ -4,14 +4,9 @@ using MediatR;
 
 namespace FlightAPI.Commands.UpdateFlightCommand
 {
-    public class UpdateFlightHandler : IRequestHandler<UpdateFlightCommand, FlightDTO>
+    public class UpdateFlightHandler(IFlightCommandService flightCommandService) : IRequestHandler<UpdateFlightCommand, FlightDTO>
     {
-        private readonly IFlightCommandService _flightCommandService;
-
-        public UpdateFlightHandler(IFlightCommandService flightCommandService)
-        {
-            _flightCommandService = flightCommandService;
-        }
+        private readonly IFlightCommandService _flightCommandService = flightCommandService;
 
         public async Task<FlightDTO> Handle(UpdateFlightCommand command, CancellationToken cancellation)
         {

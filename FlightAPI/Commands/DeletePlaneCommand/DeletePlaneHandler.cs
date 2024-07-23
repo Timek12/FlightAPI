@@ -3,14 +3,9 @@ using MediatR;
 
 namespace FlightAPI.Commands.DeletePlaneCommand
 {
-    public class DeletePlaneHandler : IRequestHandler<DeletePlaneCommand, Unit>
+    public class DeletePlaneHandler(IPlaneCommandService planeCommandService) : IRequestHandler<DeletePlaneCommand, Unit>
     {
-        private readonly IPlaneCommandService _planeCommandService;
-
-        public DeletePlaneHandler(IPlaneCommandService planeCommandService)
-        {
-            _planeCommandService = planeCommandService;
-        }
+        private readonly IPlaneCommandService _planeCommandService = planeCommandService;
 
         public async Task<Unit> Handle(DeletePlaneCommand command, CancellationToken cancellation)
         {

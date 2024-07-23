@@ -4,14 +4,9 @@ using MediatR;
 
 namespace FlightAPI.Queries.GetPlaneByIdQuery
 {
-    public class GetPlaneByIdHandler : IRequestHandler<GetPlaneByIdQuery, PlaneDTO>
+    public class GetPlaneByIdHandler(IPlaneQueryService planeQueryService) : IRequestHandler<GetPlaneByIdQuery, PlaneDTO>
     {
-        private readonly IPlaneQueryService _planeQueryService;
-
-        public GetPlaneByIdHandler(IPlaneQueryService planeQueryService)
-        {
-            _planeQueryService = planeQueryService;
-        }
+        private readonly IPlaneQueryService _planeQueryService = planeQueryService;
 
         public async Task<PlaneDTO> Handle(GetPlaneByIdQuery request, CancellationToken cancellation)
         {

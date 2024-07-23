@@ -2,13 +2,8 @@
 
 namespace FlightAPI.Commands.DeletePlaneCommand
 {
-    public class DeletePlaneCommand : IRequest<Unit> 
+    public class DeletePlaneCommand(int id) : IRequest<Unit> 
     {
-        public int Id { get; }
-
-        public DeletePlaneCommand(int id)
-        {
-            Id = id;
-        }
+        public int Id { get; } = id;
     }
 }

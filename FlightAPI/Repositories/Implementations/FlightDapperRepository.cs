@@ -6,14 +6,10 @@ using Dapper;
 
 namespace FlightAPI.Repositories.Implementations
 {
-    public class FlightDapperRepository : IFlightDapperRepository
+    public class FlightDapperRepository(IDapperContext dapperContext) : IFlightDapperRepository
     {
-        private readonly IDapperContext _dapperContext;
+        private readonly IDapperContext _dapperContext = dapperContext;
 
-        public FlightDapperRepository(IDapperContext dapperContext)
-        {
-            _dapperContext = dapperContext;            
-        }
         public async Task<IEnumerable<FlightDTO>> GetAll()
         {
             using var connection = _dapperContext.CreateConnection();

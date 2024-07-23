@@ -3,13 +3,8 @@ using MediatR;
 
 namespace FlightAPI.Queries.GetFlightByIdQuery
 {
-    public class GetFlightByIdQuery : IRequest<FlightDTO>
+    public class GetFlightByIdQuery(int id) : IRequest<FlightDTO>
     {
-        public int Id { get; }
-    
-        public GetFlightByIdQuery(int id)
-        {
-            Id = id;
-        }
+        public int Id { get; } = id;
     }
 }

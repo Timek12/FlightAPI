@@ -7,18 +7,11 @@ using FlightAPI.Repositories.Interfaces;
 
 namespace FlightAPI.Repositories.Implementations
 {
-    public class PlaneRepository : IPlaneRepository
+    public class PlaneRepository(IApplicationDbContext db, IMapper mapper, ILogger<PlaneRepository> logger) : IPlaneRepository
     {
-        private readonly IApplicationDbContext _db;
-        private readonly IMapper _mapper;
-        private readonly ILogger<PlaneRepository> _logger;
-
-        public PlaneRepository(IApplicationDbContext db, IMapper mapper, ILogger<PlaneRepository> logger)
-        {
-            _db = db;
-            _mapper = mapper;
-            _logger = logger;
-        }
+        private readonly IApplicationDbContext _db = db;
+        private readonly IMapper _mapper = mapper;
+        private readonly ILogger<PlaneRepository> _logger = logger;
 
         public async Task<PlaneDTO> CreatePlane(CreatePlaneDTO createPlaneDTO)
         {
